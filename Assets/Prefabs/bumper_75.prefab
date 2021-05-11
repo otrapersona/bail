@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7817610908752018302}
   - component: {fileID: 6616456523154388187}
   - component: {fileID: 8950507812786405393}
+  - component: {fileID: 6979438867358923655}
   m_Layer: 0
   m_Name: bumper_75
   m_TagString: Untagged
@@ -81,3 +82,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &6979438867358923655
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7437249616121274820}
+  m_Material: {fileID: 13400000, guid: 31a47f06b6cb65c48915a244bca8520a, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -7361014774574678119, guid: 760c1d8d58fbee74dbac227eecb84f6c, type: 3}
