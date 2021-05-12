@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BallSpawner : MonoBehaviour
+public class BallSpawnAndColission : MonoBehaviour
 {
     public GameObject ballPrefab;
     private float spawnRangeX = 7f;
@@ -11,13 +11,25 @@ public class BallSpawner : MonoBehaviour
     private float spawnPosX = 0;
     private Vector3 spawnPos = new Vector3(0, 0, 0);
     void Start()
-    { 
-        InvokeRepeating("GiveMeBalls", 0, .333f);
+    {
+        GiveMeBalls();
     }
 
+    // Update is called once per frame
     void Update()
-    {}
-    void GiveMeBalls()
+    {
+        
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "ball")
+        {
+            Destroy(other.gameObject);
+            GiveMeBalls();
+        }
+    }
+    public void GiveMeBalls()
     {
         if (spawnPos == new Vector3(0, 0, 0))
         {
