@@ -178,6 +178,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: playAreaFBX
       objectReference: {fileID: 0}
+    - target: {fileID: 5419707870506457684, guid: 3c17ee63befc6644a95b62b04e7e917e, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3c17ee63befc6644a95b62b04e7e917e, type: 3}
 --- !u!1 &705507993
