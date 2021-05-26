@@ -5,20 +5,23 @@ using UnityEngine;
 public class BumperSpawner : MonoBehaviour
 {
     public GameObject[] bumperPrefab;
-    private int bumperCounter = 0;
-    private Vector3 bumperPos = new Vector3(0, 0, 0);
+    public bool bumperWaiting;
+    private Vector3 bumperPos = new Vector3(-6, 0, -1);
     void Start()
     {
-        InvokeRepeating("GiveMeBumpers", 1, 3);
+        bumperWaiting = false;
     }
     void Update()
-    { }
+    {
+        GiveMeBumpers();
+    }
     void GiveMeBumpers()
     {
-        if (bumperCounter < bumperPrefab.Length)
+        if (!bumperWaiting)
         {
-            Instantiate(bumperPrefab[bumperCounter], bumperPos, bumperPrefab[bumperCounter].transform.rotation);
-            bumperCounter += 1;
+            int randomBumper = Random.Range(0, bumperPrefab.Length);
+            Instantiate(bumperPrefab[randomBumper], bumperPos, bumperPrefab[randomBumper].transform.rotation);
+            bumperWaiting = true;
         }
     }
 }

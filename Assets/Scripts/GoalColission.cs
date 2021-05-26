@@ -25,4 +25,8 @@ public class GoalColission : MonoBehaviour
             Time.timeScale = 0;
         }
     }
+    private void OnMouseDown()
+    {
+        Debug.Log("mywife");
+    }
 }
