@@ -1,14 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GoalColission : MonoBehaviour
 {
-    public GameObject victoryPrefab;
+    private GameObject victoryText;
+
     void Start()
     {
-
-    }
+        victoryText = GameObject.Find("Victory Text");
+        victoryText.gameObject.SetActive(false);
+        }
 
     // Update is called once per frame
     void Update()
@@ -20,13 +24,7 @@ public class GoalColission : MonoBehaviour
         if (other.gameObject.tag == "ball")
         {
             Destroy(other.gameObject);
-            //Debug.Log("you reached the goal and won.\nthere are no more empires to conquer.\nis this a victory or a loss?");
-            Instantiate(victoryPrefab);
-            Time.timeScale = 0;
+            victoryText.gameObject.SetActive(true);
         }
-    }
-    private void OnMouseDown()
-    {
-        Debug.Log("mywife");
     }
 }
