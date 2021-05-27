@@ -10,18 +10,18 @@ public class Bumper : MonoBehaviour
     public int rotationRange = 180;
     private bool amIDraggable;
     private BumperSpawner bumperSpawnerScript;
-    private MeshCollider meshCollider;
+    public MeshCollider[] meshCollider;
+    public BoxCollider boxCollider;
     private bool beingDragged = false;
     void Start()
     {
         bumperSpawnerScript = GameObject.Find("Spawner").GetComponent<BumperSpawner>();
-        meshCollider = GetComponent<MeshCollider>();
         amIDraggable = true;
         cam = Camera.main;
         camNearClipPlane = cam.nearClipPlane;
         camPosZ = cam.transform.position.z;
         int bumperRotation = Random.Range(0, rotationRange);
-        transform.Rotate(Vector3.up, bumperRotation);
+        transform.Rotate(Vector3.forward, bumperRotation);
     }
 
     // Update is called once per frame
@@ -67,6 +67,8 @@ public class Bumper : MonoBehaviour
     {
         amIDraggable = false;
         bumperSpawnerScript.bumperWaiting = false;
-        meshCollider.enabled = true;
+        meshCollider[0].enabled = true;
+        meshCollider[1].enabled = true;
+        boxCollider.enabled = true;
     }
 }
