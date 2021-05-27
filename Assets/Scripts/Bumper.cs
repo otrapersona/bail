@@ -60,7 +60,7 @@ public class Bumper : MonoBehaviour
             mousePos.y = Input.mousePosition.y;
             mousePos.z = camNearClipPlane - camPosZ;
             point = cam.ScreenToWorldPoint(mousePos);
-            transform.position = new Vector3((float)System.Math.Round(point.x,3), (float)System.Math.Round(point.y,3), (float)System.Math.Round(point.z,3));
+            transform.position = new Vector3((float)System.Math.Round(point.x,1), (float)System.Math.Round(point.y,1), (float)System.Math.Round(point.z,1));
         }
     }
     private void OnMouseUp()
