@@ -6,6 +6,8 @@ TagManager:
   tags:
   - ball
   - victory
+  - edge
+  - goal
   layers:
   - Default
   - TransparentFX
