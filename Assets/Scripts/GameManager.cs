@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     private float goalSpawnPosY = 0;
     private Vector3 goalSpawnPos = new Vector3(0, 0, 0);
     private int goalSpawnPosX;
-    private float ballSpawnRangeX = 5f;
+    private int ballSpawnRangeX = 4;
     private float ballSpawnRangeY = 5f;
     private float BallSpawnPosY;
     private int ballPosZ = 0;
@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
         if (ballSpawnPos == new Vector3(0, 0, 0))
         {
             BallSpawnPosY = ballSpawnRangeY - transform.localScale.y / 3;
-            ballSpawnPosX = Random.Range(-ballSpawnRangeX + transform.localScale.y / 3, ballSpawnRangeX - transform.localScale.y / 3);
+            ballSpawnPosX = Random.Range(-ballSpawnRangeX, ballSpawnRangeX);
             ballSpawnPos = new Vector3(ballSpawnPosX, BallSpawnPosY, ballPosZ);
         }
         Instantiate(ballPrefab, ballSpawnPos, ballPrefab.transform.rotation);
