@@ -28,13 +28,14 @@ public class Bumper : MonoBehaviour
     {
         if (amIDraggable)
         {
+            Time.timeScale = 0.0f;
             Vector3 mousePos = new Vector2();
             Vector3 point = new Vector3();
             mousePos.x = Input.mousePosition.x;
             mousePos.y = Input.mousePosition.y;
             mousePos.z = camNearClipPlane - camPosZ;
             point = cam.ScreenToWorldPoint(mousePos);
-            transform.position = new Vector3((float)System.Math.Round(point.x, 2), (float)System.Math.Round(point.y, 2), (float)System.Math.Round(point.z, 2));
+            transform.position = new Vector3(5*(float)System.Math.Round(point.x/5, 2), 5*(float)System.Math.Round(point.y/5, 2), 0);
 
             if (transform.position.x > limitX)
             {
@@ -66,6 +67,7 @@ public class Bumper : MonoBehaviour
             GetComponent<BoxCollider>().enabled = false;
             amIDraggable = false;
             gameManagerScript.GiveMeBumpers();
+            Time.timeScale = 1f;
         }
     }
 }
