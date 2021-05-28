@@ -8,6 +8,7 @@ TagManager:
   - victory
   - edge
   - goal
+  - bumper
   layers:
   - Default
   - TransparentFX

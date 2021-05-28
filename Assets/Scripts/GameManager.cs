@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,9 +9,10 @@ public class GameManager : MonoBehaviour
     public GameObject ballPrefab;
     public GameObject goalPrefab;
     public GameObject[] bumperPrefab;
-    public GameObject victoryText;
-
     public GameObject[] ballCount;
+
+    public TextMeshProUGUI textBounces;
+    public TextMeshProUGUI textVictory;
 
     public bool bumperWaiting;
 
@@ -21,6 +23,7 @@ public class GameManager : MonoBehaviour
     private int goalSpawnPosX;
     private int ballSpawnRangeX = 4;
     private int ballPosZ = 0;
+    public int bounces;
 
     private float goalSpawnPosY = 0;
 
@@ -33,9 +36,11 @@ public class GameManager : MonoBehaviour
     private float ballSpawnPosX = 0;
     void Start()
     {
-        victoryText.gameObject.SetActive(false);
+        bounces = 0;
+        textBounces.text = "BOUNCES\n" + bounces;
+        //victoryText.gameObject.SetActive(false);
         bumperWaiting = false;
-        Time.timeScale = 0.5f;
+        Time.timeScale = 1f;
         ballSpawnPos = new Vector3(0, 0, 0);
         GiveMeBalls();
         GiveMegoal();
@@ -71,11 +76,26 @@ public class GameManager : MonoBehaviour
     }
     public void BallCollided(GameObject theBall, string type)
     {
-        Destroy(theBall.gameObject);
-        GiveMeBalls();
-        if (type == "goal")
+        
+        if (type == "bumper")
         {
-            victoryText.gameObject.SetActive(true);
+            bounces++;
+            textBounces.text = "BOUNCES\n" + bounces;
+        }
+        else if (type == "edge")
+        {
+            Destroy(theBall.gameObject);
+            bounces = 0;
+            textBounces.text = "BOUNCES\n" + bounces;
+            GiveMeBalls();
+        }
+        else if (type == "goal")
+        {
+            textVictory.text = "SUPREME VICTORY\nSCORE\n"+Mathf.Pow(bounces,2);
+            textVictory.gameObject.SetActive(true);
+            bounces = 0;
+            Destroy(theBall.gameObject);
+            GiveMeBalls();
         }
     }
     public void GiveMeBumpers()
