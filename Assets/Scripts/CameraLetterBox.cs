@@ -10,7 +10,7 @@ public class CameraLetterBox : MonoBehaviour
     void Start()
     {
         mainCam = gameObject.GetComponent<Camera>();
-        InvokeRepeating("GoHamWithTheCam", 0, 1);
+        InvokeRepeating("GoHamWithTheCam", 0, .5f);
     }
     void Update()
     {

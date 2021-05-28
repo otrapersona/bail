@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     private int goalSpawnPosX;
     private int ballSpawnRangeX = 4;
     private int ballPosZ = 0;
-    public int bounces;
+    private int bounces;
 
     private float goalSpawnPosY = 0;
 
