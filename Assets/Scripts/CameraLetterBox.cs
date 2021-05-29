@@ -4,36 +4,43 @@ using UnityEngine;
 
 public class CameraLetterBox : MonoBehaviour
 {
-    private float targetAspectRatio = 1.2f;
-        //= 16f/9f;
+    private float targetWidthResolution = 960;
+
+    private float targetHeightResolution = 800;
+
+    private float targetAspectRatio; // 960/800 = 1.2
+
     private Camera mainCam;
+
     void Start()
     {
+        targetAspectRatio = targetWidthResolution / targetHeightResolution;
         mainCam = gameObject.GetComponent<Camera>();
-        InvokeRepeating("GoHamWithTheCam", 0, .5f);
+        InvokeRepeating("GoHamWithTheCam", 0, 0.5f);
     }
+
     void Update()
     {
-        
     }
+
     public void GoHamWithTheCam()
     {
-            float w = Screen.width;
-            float h = Screen.height;
-            float a = w / h;
-            Rect r;
-            if (a > targetAspectRatio)
-            {
-                float tw = h * targetAspectRatio;
-                float o = (w - tw) * 0.5f;
-                r = new Rect(o, 0, tw, h);
-            }
-            else
-            {
-                float th = w / targetAspectRatio;
-                float o = (h - th) * 0.5f;
-                r = new Rect(0, o, w, th);
-            }
-            mainCam.pixelRect = r;
+        float w = Screen.width;
+        float h = Screen.height;
+        float a = w / h;
+        Rect r;
+        if (a > targetAspectRatio)
+        {
+            float tw = h * targetAspectRatio;
+            float o = (w - tw) * 0.5f;
+            r = new Rect(o, 0, tw, h);
+        }
+        else
+        {
+            float th = w / targetAspectRatio;
+            float o = (h - th) * 0.5f;
+            r = new Rect(0, o, w, th);
+        }
+        mainCam.pixelRect = r;
     }
 }

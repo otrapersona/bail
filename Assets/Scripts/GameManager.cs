@@ -41,7 +41,6 @@ public class GameManager : MonoBehaviour
         //victoryText.gameObject.SetActive(false);
         bumperWaiting = false;
         Time.timeScale = 1f;
-        ballSpawnPos = new Vector3(0, 0, 0);
         GiveMeBalls();
         GiveMegoal();
         GiveMeBumpers();
@@ -51,17 +50,17 @@ public class GameManager : MonoBehaviour
     }
     public void GiveMeBalls()
     {
-        ballCount = GameObject.FindGameObjectsWithTag("ball");
-        if (ballCount.Length < 2)
-        {
-            if (ballSpawnPos == new Vector3(0, 0, 0))
-            {
+        //ballCount = GameObject.FindGameObjectsWithTag("ball");
+        //if (ballCount.Length < 2)
+        //{
+        //    if (ballSpawnPos == new Vector3(0, 0, 0))
+        //    {
                 BallSpawnPosY = ballSpawnRangeY - transform.localScale.y / 3;
                 ballSpawnPosX = Random.Range(-ballSpawnRangeX, ballSpawnRangeX);
                 ballSpawnPos = new Vector3(ballSpawnPosX, BallSpawnPosY, ballPosZ);
-            }
+            //}
             Instantiate(ballPrefab, ballSpawnPos, ballPrefab.transform.rotation);
-        }
+        //}
     }
     public void GiveMegoal()
     {
@@ -76,27 +75,22 @@ public class GameManager : MonoBehaviour
     }
     public void BallCollided(GameObject theBall, string type)
     {
-        
+
         if (type == "bumper")
         {
             bounces++;
-            textBounces.text = "BOUNCES\n" + bounces;
+            
         }
         else if (type == "edge")
         {
-            Destroy(theBall.gameObject);
-            bounces = 0;
-            textBounces.text = "BOUNCES\n" + bounces;
-            GiveMeBalls();
+            ResetBall(theBall);
         }
         else if (type == "goal")
         {
-            textVictory.text = "SUPREME VICTORY\nSCORE\n"+Mathf.Pow(bounces,2);
+            textVictory.text = "SUPREME VICTORY\nSCORE\n" + Mathf.Pow(bounces, 2);
             textVictory.gameObject.SetActive(true);
-            bounces = 0;
-            Destroy(theBall.gameObject);
-            GiveMeBalls();
         }
+        textBounces.text = "BOUNCES\n" + bounces;
     }
     public void GiveMeBumpers()
     {
@@ -106,5 +100,13 @@ public class GameManager : MonoBehaviour
             Instantiate(bumperPrefab[randomBumper], bumperPos, bumperPrefab[randomBumper].transform.rotation);
             bumperWaiting = true;
         }
+    }
+    public void ResetBall(GameObject theBall)
+    {
+        bounces = 0;
+        //Destroy(theBall.gameObject);
+        theBall.gameObject.transform.position = ballSpawnPos;
+        theBall.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        //GiveMeBalls();
     }
 }
