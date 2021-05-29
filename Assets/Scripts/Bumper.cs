@@ -7,12 +7,12 @@ public class Bumper : MonoBehaviour
     private Camera cam;
     float camNearClipPlane;
     float camPosZ;
-    private int rotationRange = 180;
+    private int rotationRange = 360;
     private bool amIDraggable;
     private GameManager gameManagerScript;
     public MeshCollider[] meshCollider;
     public BoxCollider boxCollider;
-    private float limitX = 4.9f;
+    private float limitX = 5f;
     void Start()
     {
         gameManagerScript = GameObject.Find("Game Manager").GetComponent<GameManager>();
@@ -20,7 +20,7 @@ public class Bumper : MonoBehaviour
         cam = Camera.main;
         camNearClipPlane = cam.nearClipPlane;
         camPosZ = cam.transform.position.z;
-        int bumperRotation = Random.Range(0, rotationRange / 10) * 10;
+        int bumperRotation = Random.Range(0, rotationRange / 15) * 15;
         transform.Rotate(Vector3.forward, bumperRotation);
     }
 
@@ -35,7 +35,8 @@ public class Bumper : MonoBehaviour
             mousePos.y = Input.mousePosition.y;
             mousePos.z = camNearClipPlane - camPosZ;
             point = cam.ScreenToWorldPoint(mousePos);
-            transform.position = new Vector3(5*(float)System.Math.Round(point.x/5, 2), 5*(float)System.Math.Round(point.y/5, 2), 0);
+            transform.position = point;
+
 
             if (transform.position.x > limitX)
             {
@@ -67,7 +68,7 @@ public class Bumper : MonoBehaviour
             GetComponent<BoxCollider>().enabled = false;
             amIDraggable = false;
             gameManagerScript.GiveMeBumpers();
-            Time.timeScale = 1f;
+            Time.timeScale = gameManagerScript.timeScalez;
         }
     }
 }

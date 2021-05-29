@@ -12,14 +12,11 @@ public class Ball : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //if (other.gameObject.tag == "edge" || other.gameObject.tag == "goal")
-        //{
-            gameManagerScript.BallCollided(gameObject, other.gameObject.tag);
-
-        //}
+        gameManagerScript.BallCollided(gameObject, other.gameObject.tag);
     }
     private void OnCollisionEnter(Collision collision)
     {
         gameManagerScript.BallCollided(gameObject, collision.gameObject.tag);
     }
+
 }

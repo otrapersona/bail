@@ -13,8 +13,10 @@ public class GameManager : MonoBehaviour
 
     public TextMeshProUGUI textBounces;
     public TextMeshProUGUI textVictory;
+    [SerializeField] private TextMeshProUGUI textBallPos;
 
     public bool bumperWaiting;
+    public float timeScalez;
 
     private int[] sign = new int[2] { -1, 1 };
     private int goalSpawnRangeX = 5;
@@ -40,14 +42,12 @@ public class GameManager : MonoBehaviour
         textBounces.text = "BOUNCES\n" + bounces;
         //victoryText.gameObject.SetActive(false);
         bumperWaiting = false;
-        Time.timeScale = 1f;
+        timeScalez = Time.timeScale;
         GiveMeBalls();
         GiveMegoal();
         GiveMeBumpers();
     }
-    void Update()
-    {
-    }
+
     public void GiveMeBalls()
     {
         //ballCount = GameObject.FindGameObjectsWithTag("ball");
@@ -55,11 +55,11 @@ public class GameManager : MonoBehaviour
         //{
         //    if (ballSpawnPos == new Vector3(0, 0, 0))
         //    {
-                BallSpawnPosY = ballSpawnRangeY - transform.localScale.y / 3;
-                ballSpawnPosX = Random.Range(-ballSpawnRangeX, ballSpawnRangeX);
-                ballSpawnPos = new Vector3(ballSpawnPosX, BallSpawnPosY, ballPosZ);
-            //}
-            Instantiate(ballPrefab, ballSpawnPos, ballPrefab.transform.rotation);
+        BallSpawnPosY = ballSpawnRangeY - transform.localScale.y / 3;
+        ballSpawnPosX = Random.Range(-ballSpawnRangeX, ballSpawnRangeX);
+        ballSpawnPos = new Vector3(ballSpawnPosX, BallSpawnPosY, ballPosZ);
+        //}
+        Instantiate(ballPrefab, ballSpawnPos, ballPrefab.transform.rotation);
         //}
     }
     public void GiveMegoal()
@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
         if (type == "bumper")
         {
             bounces++;
-            
+
         }
         else if (type == "edge")
         {
@@ -87,6 +87,7 @@ public class GameManager : MonoBehaviour
         }
         else if (type == "goal")
         {
+            textVictory.gameObject.SetActive(true);
             textVictory.text = "SUPREME VICTORY\nSCORE\n" + Mathf.Pow(bounces, 2);
             textVictory.gameObject.SetActive(true);
         }
@@ -105,8 +106,27 @@ public class GameManager : MonoBehaviour
     {
         bounces = 0;
         //Destroy(theBall.gameObject);
+        BallPosText(theBall);
         theBall.gameObject.transform.position = ballSpawnPos;
         theBall.GetComponent<Rigidbody>().velocity = Vector3.zero;
         //GiveMeBalls();
+
+    }
+    private void BallPosText(GameObject theBall)
+    {
+        textBallPos.text = "x\n" + theBall.transform.position.x + "\n\ny\n" + theBall.transform.position.y;
+
+
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            textBallPos.gameObject.SetActive(!textBallPos.gameObject.activeSelf);
+        }
+        else if (Input.GetKeyDown(KeyCode.B))
+        {
+            ResetBall(GameObject.FindGameObjectWithTag("ball"));
+        }
     }
 }

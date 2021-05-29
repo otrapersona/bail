@@ -16,11 +16,7 @@ public class CameraLetterBox : MonoBehaviour
     {
         targetAspectRatio = targetWidthResolution / targetHeightResolution;
         mainCam = gameObject.GetComponent<Camera>();
-        InvokeRepeating("GoHamWithTheCam", 0, 0.5f);
-    }
-
-    void Update()
-    {
+        InvokeRepeating("GoHamWithTheCam", 0, 0.25f);
     }
 
     public void GoHamWithTheCam()
