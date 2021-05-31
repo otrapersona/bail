@@ -1480,6 +1480,7 @@ MonoBehaviour:
   textVictory: {fileID: 51707548}
   textBallPos: {fileID: 2054117226}
   bumperWaiting: 0
+  timeScalez: 0
 --- !u!4 &2036639415
 Transform:
   m_ObjectHideFlags: 0
