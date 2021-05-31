@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
     public TextMeshProUGUI textBounces;
     public TextMeshProUGUI textVictory;
+    public TextMeshProUGUI textBumpers;
     [SerializeField] private TextMeshProUGUI textBallPos;
 
     public bool bumperWaiting;
@@ -25,7 +26,8 @@ public class GameManager : MonoBehaviour
     private int goalSpawnPosX;
     private int ballSpawnRangeX = 4;
     private int ballPosZ = 0;
-    private int bounces;
+    private int bounceCount;
+    [SerializeField] private int bumperCount;
 
     private float goalSpawnPosY = 0;
 
@@ -38,8 +40,9 @@ public class GameManager : MonoBehaviour
     private float ballSpawnPosX = 0;
     void Start()
     {
-        bounces = 0;
-        textBounces.text = "BOUNCES\n" + bounces;
+        bounceCount = 0;
+        bumperCount = 0;
+        textBounces.text = "BOUNCES\n" + bounceCount;
         //victoryText.gameObject.SetActive(false);
         bumperWaiting = false;
         timeScalez = Time.timeScale;
@@ -78,7 +81,7 @@ public class GameManager : MonoBehaviour
 
         if (type == "bumper")
         {
-            bounces++;
+            bounceCount++;
 
         }
         else if (type == "edge")
@@ -88,10 +91,15 @@ public class GameManager : MonoBehaviour
         else if (type == "goal")
         {
             textVictory.gameObject.SetActive(true);
-            textVictory.text = "SUPREME VICTORY\nSCORE\n" + Mathf.Pow(bounces, 2);
+            int finalScore = ((bounceCount - bumperCount + 2) * 100);
+            //textVictory.text = "SUPREME VICTORY\nSCORE\n" + Mathf.Pow(bounceCount, 2);
+            if (finalScore < 1) { textVictory.text = "VICTORY, BUT AT WHAT COST?\nSCORE " + 0 + "\nMORE BUMPERS = LOWER SCORE"; }
+            else textVictory.text = "SUPREME VICTORY\nSCORE " + finalScore + "\nMORE BOUNCES = HIGHER SCORE";
+
+
             textVictory.gameObject.SetActive(true);
         }
-        textBounces.text = "BOUNCES\n" + bounces;
+        textBounces.text = "BOUNCES\n" + bounceCount;
     }
     public void GiveMeBumpers()
     {
@@ -99,12 +107,14 @@ public class GameManager : MonoBehaviour
         {
             int randomBumper = Random.Range(0, bumperPrefab.Length);
             Instantiate(bumperPrefab[randomBumper], bumperPos, bumperPrefab[randomBumper].transform.rotation);
+            bumperCount++;
+            textBumpers.text = "BUMPERS\n" + (bumperCount-1);
             bumperWaiting = true;
         }
     }
     public void ResetBall(GameObject theBall)
     {
-        bounces = 0;
+        bounceCount = 0;
         //Destroy(theBall.gameObject);
         BallPosText(theBall);
         theBall.gameObject.transform.position = ballSpawnPos;
@@ -123,6 +133,8 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.D))
         {
             textBallPos.gameObject.SetActive(!textBallPos.gameObject.activeSelf);
+            textBounces.gameObject.SetActive(!textBounces.gameObject.activeSelf);
+            textBumpers.gameObject.SetActive(!textBumpers.gameObject.activeSelf);
         }
         else if (Input.GetKeyDown(KeyCode.B))
         {
