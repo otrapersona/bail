@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 public class GameManager : MonoBehaviour
 {
@@ -22,6 +24,7 @@ public class GameManager : MonoBehaviour
     public float timeScalez;
 
     private int[] sign = new int[2] { -1, 1 };
+    [SerializeField] GameObject[] backgroundLines = new GameObject[9];
     private int goalSpawnRangeX = 5;
     private int goalSpawnRangeY = 5;
     private int goalPosZ = 0;
@@ -36,8 +39,10 @@ public class GameManager : MonoBehaviour
     private Vector3 goalSpawnPos = new Vector3(0, 0, 0);
     private Vector3 ballSpawnPos;
     private Vector3 bumperPos = new Vector3(-6, 0, -1);
+#if UNITY_EDITOR
     private Vector3 newPos;
     private Vector3 oldPos = Vector3.zero;
+#endif
 
     private float ballSpawnRangeY = 5f;
     private float BallSpawnPosY;
@@ -58,31 +63,48 @@ public class GameManager : MonoBehaviour
     public void GiveMeBalls()
     {
         Application.targetFrameRate = 50;
+        QualitySettings.vSyncCount = 0;
+#if UNITY_EDITOR
         UnityEngine.Profiling.Profiler.BeginSample("DebugGiveMeBalls");
+#endif
         BallSpawnPosY = ballSpawnRangeY - transform.localScale.y / 3;
         ballSpawnPosX = Random.Range(-ballSpawnRangeX, ballSpawnRangeX);
+        DisableBGLines();
+        EnableBGLine((int)ballSpawnPosX);
         ballSpawnPos = new Vector3(ballSpawnPosX, BallSpawnPosY, ballPosZ);
         Instantiate(ballPrefab, ballSpawnPos, ballPrefab.transform.rotation);
+#if UNITY_EDITOR
         UnityEngine.Profiling.Profiler.EndSample();
+#endif
     }
     public void GiveMegoal()
     {
+#if UNITY_EDITOR
         UnityEngine.Profiling.Profiler.BeginSample("DebugGiveMeGoal");
+#endif
         goalSpawnPosX = (goalSpawnRangeX * sign[Random.Range(0, 2)]);
         goalSpawnPosY = Random.Range(-goalSpawnRangeY + goalPrefab.transform.localScale.y / 2, goalSpawnRangeY - goalPrefab.transform.localScale.y / 2);
         goalSpawnPos = new Vector3(goalSpawnPosX, goalSpawnPosY, goalPosZ);
         Instantiate(goalPrefab, goalSpawnPos, goalPrefab.transform.rotation);
+#if UNITY_EDITOR
         UnityEngine.Profiling.Profiler.EndSample();
+#endif
     }
     public void RestartGame()
     {
+#if UNITY_EDITOR
         UnityEngine.Profiling.Profiler.BeginSample("DebugRestartGame");
+#endif
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+#if UNITY_EDITOR
         UnityEngine.Profiling.Profiler.EndSample();
+#endif
     }
     public void BallCollided(GameObject theBall, string type)
     {
+#if UNITY_EDITOR
         UnityEngine.Profiling.Profiler.BeginSample("DebugBallCollidedGM");
+#endif
         if (type == "bumper")
         {
             bounceCount++;
@@ -103,11 +125,15 @@ public class GameManager : MonoBehaviour
             textVictory.gameObject.SetActive(true);
         }
         textBounces.text = "BOUNCES\n" + bounceCount;
+#if UNITY_EDITOR
         UnityEngine.Profiling.Profiler.EndSample();
+#endif
     }
     public void GiveMeBumpers()
     {
+#if UNITY_EDITOR
         UnityEngine.Profiling.Profiler.BeginSample("DebugGiveMeBumpers");
+#endif
         if (!bumperWaiting)
         {
             int randomBumper = Random.Range(0, bumperPrefab.Length);
@@ -116,12 +142,17 @@ public class GameManager : MonoBehaviour
             textBumpers.text = "BUMPERS\n" + (bumperCount - 1);
             bumperWaiting = true;
         }
+#if UNITY_EDITOR
         UnityEngine.Profiling.Profiler.EndSample();
+#endif
     }
     public void ResetBall(GameObject theBall)
     {
         bounceCount = 0;
-        BallPosText(theBall);
+        if (debugOn)
+        {
+            BallPosText(theBall);
+        }
         theBall.gameObject.transform.position = ballSpawnPos;
         theBall.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
@@ -129,8 +160,8 @@ public class GameManager : MonoBehaviour
     private void BallPosText(GameObject theBall)
     {
         textBallPos.text = "x\n" + theBall.transform.position.x + "\n\ny\n" + theBall.transform.position.y;
-        newPos = theBall.transform.position;
 #if UNITY_EDITOR
+        newPos = theBall.transform.position;
         if (debugOn && oldPos != newPos)
         {
             Debug.Log("oldPos != newPos");
@@ -141,13 +172,16 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
+#if UNITY_EDITOR
         UnityEngine.Profiling.Profiler.BeginSample("DebugGameManagerUpdate");
+#endif
         if (Input.GetKeyDown(KeyCode.D))
         {
+            debugOn = !debugOn;
             textBallPos.gameObject.SetActive(!textBallPos.gameObject.activeSelf);
             textBounces.gameObject.SetActive(!textBounces.gameObject.activeSelf);
             textBumpers.gameObject.SetActive(!textBumpers.gameObject.activeSelf);
-            debugOn = !debugOn;
+
         }
         else if (Input.GetKeyDown(KeyCode.B))
         {
@@ -159,6 +193,19 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 1f;
         }
 #endif
+#if UNITY_EDITOR
         UnityEngine.Profiling.Profiler.EndSample();
+#endif
+    }
+    private void DisableBGLines()
+    {
+        foreach (GameObject backgroundLine in backgroundLines)
+        {
+            backgroundLine.SetActive(false);
+        }
+    }
+    private void EnableBGLine(int xPos)
+    {
+        backgroundLines[xPos + 4].SetActive(true);
     }
 }
