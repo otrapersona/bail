@@ -26,6 +26,7 @@ public class Bumper : MonoBehaviour
 
     private void OnMouseDrag()
     {
+        UnityEngine.Profiling.Profiler.BeginSample("DebugBumperOnMouseDrag");
         if (amIDraggable)
         {
             Time.timeScale = 0.0f;
@@ -55,9 +56,11 @@ public class Bumper : MonoBehaviour
                 transform.position = new Vector3(transform.position.x, -limitX, transform.position.z);
             }
         }
+        UnityEngine.Profiling.Profiler.EndSample();
     }
     private void OnMouseUp()
     {
+        UnityEngine.Profiling.Profiler.BeginSample("DebugBumperOnMouseUp");
         if (amIDraggable)
         {
 
@@ -70,5 +73,6 @@ public class Bumper : MonoBehaviour
             gameManagerScript.GiveMeBumpers();
             Time.timeScale = gameManagerScript.timeScalez;
         }
+        UnityEngine.Profiling.Profiler.EndSample();
     }
 }

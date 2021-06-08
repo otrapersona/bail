@@ -12,11 +12,15 @@ public class Ball : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        UnityEngine.Profiling.Profiler.BeginSample("DebugBallTrigger");
         gameManagerScript.BallCollided(gameObject, other.gameObject.tag);
+        UnityEngine.Profiling.Profiler.EndSample();
     }
     private void OnCollisionEnter(Collision collision)
     {
+        UnityEngine.Profiling.Profiler.BeginSample("DebugBallCollision");
         gameManagerScript.BallCollided(gameObject, collision.gameObject.tag);
+        UnityEngine.Profiling.Profiler.EndSample();
     }
 
 }

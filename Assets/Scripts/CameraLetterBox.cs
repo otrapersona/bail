@@ -21,6 +21,7 @@ public class CameraLetterBox : MonoBehaviour
 
     public void GoHamWithTheCam()
     {
+        UnityEngine.Profiling.Profiler.BeginSample("DebugGoHamWithTheCam");
         float w = Screen.width;
         float h = Screen.height;
         float a = w / h;
@@ -38,5 +39,6 @@ public class CameraLetterBox : MonoBehaviour
             r = new Rect(0, o, w, th);
         }
         mainCam.pixelRect = r;
+        UnityEngine.Profiling.Profiler.EndSample();
     }
 }
