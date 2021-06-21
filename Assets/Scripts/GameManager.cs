@@ -108,7 +108,7 @@ public class GameManager : MonoBehaviour
         if (type == "bumper")
         {
             bounceCount++;
-
+            textBounces.text = "BOUNCES\n" + bounceCount;
         }
         else if (type == "edge")
         {
@@ -124,7 +124,6 @@ public class GameManager : MonoBehaviour
 
             textVictory.gameObject.SetActive(true);
         }
-        textBounces.text = "BOUNCES\n" + bounceCount;
 #if UNITY_EDITOR
         UnityEngine.Profiling.Profiler.EndSample();
 #endif
@@ -162,12 +161,17 @@ public class GameManager : MonoBehaviour
         textBallPos.text = "x\n" + theBall.transform.position.x + "\n\ny\n" + theBall.transform.position.y;
 #if UNITY_EDITOR
         newPos = theBall.transform.position;
+#endif
+#if UNITY_EDITOR
         if (debugOn && oldPos != newPos)
         {
-            Debug.Log("oldPos != newPos");
+#if UNITY_EDITOR
             Time.timeScale = 0.0f;
+#endif
         }
+#if UNITY_EDITOR
         oldPos = newPos;
+#endif
 #endif
     }
     private void Update()

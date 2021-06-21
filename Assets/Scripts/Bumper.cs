@@ -13,7 +13,8 @@ public class Bumper : MonoBehaviour
     private int rotationRange = 360;
     private bool amIDraggable;
     private GameManager gameManagerScript;
-    public MeshCollider[] meshCollider;
+    //public MeshCollider[] meshCollider;
+    public CapsuleCollider[] capsuleCollider;
     public BoxCollider boxCollider;
     private float limitX = 5f;
     void Start()
@@ -74,8 +75,10 @@ public class Bumper : MonoBehaviour
         {
 
             gameManagerScript.bumperWaiting = false;
-            meshCollider[0].enabled = true;
-            meshCollider[1].enabled = true;
+            //meshCollider[0].enabled = true;
+            //meshCollider[1].enabled = true;
+            capsuleCollider[0].enabled = true;
+            capsuleCollider[1].enabled = true;
             boxCollider.enabled = true;
             GetComponent<BoxCollider>().enabled = false;
             amIDraggable = false;
